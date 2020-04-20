@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "MESSAGE";
     private ListView obj;
     DBHelper mydb;
-    ListAdapter listAdapter;
     Cursor cursor;
 
     @Override
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         mydb = new DBHelper(this);
         obj = (ListView) findViewById(R.id.listView1);
         ArrayList<Contact> contactArrayList = mydb.getAllData();
-        listAdapter = new ListAdapter(contactArrayList, this);
+        ListAdapter listAdapter = new ListAdapter(contactArrayList, this);
         obj.setAdapter(listAdapter);
         obj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtras(dataBundle);
                             startActivity(intent);
                         } else if (item.getItemId() == R.id.deleteButton) {
+                            int id_To_Search = position + 1;
+
+                            Bundle dataBundle = new Bundle();
+                            dataBundle.putInt("id", id_To_Search);
                             showDialog(dataBundle);
                         }
                         return true;
@@ -100,7 +103,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         mydb = new DBHelper(getApplicationContext());
                         mydb.deleteContact(id);
-
+                        overridePendingTransition(0, 0);
+                        finish();
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                     }
                 })
                 .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {

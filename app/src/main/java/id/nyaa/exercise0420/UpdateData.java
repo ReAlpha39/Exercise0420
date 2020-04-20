@@ -72,6 +72,7 @@ public class UpdateData extends AppCompatActivity {
                         email.getText().toString(),
                         alamat.getText().toString()
                 );
+                finish();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });

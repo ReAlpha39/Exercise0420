@@ -96,6 +96,7 @@ public class DetailInput extends AppCompatActivity {
                                 email.getText().toString(),
                                 alamat.getText().toString()
                         );
+                        finish();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
                 } else {
