@@ -18,6 +18,7 @@ public class DetailInput extends AppCompatActivity {
     TextView phone;
     TextView nama;
     TextView alamat;
+    TextView title;
 
     int id_To_Update = 0;
 
@@ -29,6 +30,7 @@ public class DetailInput extends AppCompatActivity {
         nama = (TextView) findViewById(R.id.InputNama);
         phone = (TextView) findViewById(R.id.InputTelp);
         alamat = (TextView) findViewById(R.id.InputAlamat);
+        title = (TextView) findViewById(R.id.title);
 
         Button b = (Button) findViewById(R.id.saveButton);
 
@@ -45,7 +47,7 @@ public class DetailInput extends AppCompatActivity {
                 id_To_Update = Value;
                 rs.moveToFirst();
 
-                final String namaS = rs.getString(rs.getColumnIndex(DBHelper.KNK_TABLE_NAME));
+                final String namaS = rs.getString(rs.getColumnIndex(DBHelper.KNK_COLUMN_NAMA));
                 final String phoneS = rs.getString(rs.getColumnIndex(DBHelper.KNK_COLUMN_PHONE));
                 final String emailS = rs.getString(rs.getColumnIndex(DBHelper.KNK_COLUMN_EMAIL));
                 final String alamatS = rs.getString(rs.getColumnIndex(DBHelper.KNK_COLUMN_ALAMAT));
@@ -53,6 +55,7 @@ public class DetailInput extends AppCompatActivity {
                     rs.close();
                 }
 
+                title.setText(R.string.profil);
                 b.setVisibility(View.INVISIBLE);
 
                 email.setText((CharSequence) emailS);

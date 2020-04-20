@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt("id", id_To_Search);
                 Intent intent = new Intent(getApplicationContext(), DetailInput.class);
-                //intent.putExtras(dataBundle);
+                intent.putExtras(dataBundle);
                 startActivity(intent);
             }
         });
