@@ -12,4 +12,6 @@
     <string name="masukkan_nomor_telepon">Masukkan Nomor Telepon</string>
     <string name="simpan">Simpan</string>
     <string name="email">Email</string>
+    <string name="hapus">Hapus</string>
+    <string name="edit">Edit</string>
 </resources>
