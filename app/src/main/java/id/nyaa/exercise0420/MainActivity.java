@@ -3,16 +3,20 @@ package id.nyaa.exercise0420;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.MenuItemCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
     private ListView obj;
     DBHelper mydb;
     Cursor cursor;
+    ArrayList<Contact> contactArrayList;
+    ListAdapter language_adapter;
+    ListAdapter listAdapter;
+    private String keyword;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mydb = new DBHelper(this);
         obj = (ListView) findViewById(R.id.listView1);
-        ArrayList<Contact> contactArrayList = mydb.getAllData();
-        ListAdapter listAdapter = new ListAdapter(contactArrayList, this);
+        contactArrayList = mydb.getAllData();
+        listAdapter = new ListAdapter(contactArrayList, this);
         obj.setAdapter(listAdapter);
         obj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,6 +97,51 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.appbar, menu);
+        MenuItem search_item = menu.findItem(R.id.menu_search);
+
+        if (search_item != null) {
+            //MenuItem searchViewItem = menu.findItem(R.id.menu_search);
+            final SearchView searchView = (SearchView) search_item.getActionView();
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    searchView.clearFocus();
+             /*   if(list.contains(query)){
+                    adapter.getFilter().filter(query);
+                }else{
+                    Toast.makeText(MainActivity.this, "No Match found",Toast.LENGTH_LONG).show();
+                }*/
+                    return false;
+
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    listAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            });
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void showDialog(Bundle bundle) {
