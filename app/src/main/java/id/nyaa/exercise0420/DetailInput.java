@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DetailInput extends AppCompatActivity {
 
@@ -80,14 +81,34 @@ public class DetailInput extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mydb.insertContact(
-                        nama.getText().toString(),
-                        phone.getText().toString(),
-                        email.getText().toString(),
-                        alamat.getText().toString()
-                );
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                if (!nama.getText().toString().isEmpty() &&
+                        !phone.getText().toString().isEmpty() &&
+                        !email.getText().toString().isEmpty() &&
+                        !alamat.getText().toString().isEmpty()
+                ) {
+                    if (!isValidEmail(email.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "Email salah", Toast.LENGTH_LONG).show();
+                    } else {
+                        mydb.insertContact(
+                                nama.getText().toString(),
+                                phone.getText().toString(),
+                                email.getText().toString(),
+                                alamat.getText().toString()
+                        );
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Data harus diisi semua", Toast.LENGTH_LONG).show();
+                }
             }
         });
+    }
+
+    public final boolean isValidEmail(CharSequence target) {
+        if (target == null)
+            return false;
+
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }
