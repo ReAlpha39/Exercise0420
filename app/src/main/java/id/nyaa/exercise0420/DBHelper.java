@@ -29,8 +29,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(
-                "create table mahasiswa " +
-                        "(id integer primary key, nim text,nama text,phone text)");
+                "create table kontak " +
+                        "(id integer primary key, nama text,phone text,email text, alamat text)");
     }
 
     @Override
@@ -64,18 +64,22 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public ArrayList<String> getAllCotacts() {
-        ArrayList<String> array_list = new ArrayList<String>();
+    public ArrayList<Contact> getAllData() {
+        ArrayList<Contact> contactsList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from kontak", null);
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from kontak", null );
-        res.moveToFirst();
+        while (res.moveToNext()) {
+            String id = res.getString(0);
+            String nama = res.getString(1);
+            String nomor = res.getString(2);
+            String email = res.getString(3);
+            String alamat = res.getString(4);
 
-        while (res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex(KNK_COLUMN_NAMA)));
-            res.moveToNext();
+            Contact newContact = new Contact(id, nama, nomor, email, alamat);
+            contactsList.add(newContact);
         }
-        return array_list;
+        return contactsList;
     }
 }
 
