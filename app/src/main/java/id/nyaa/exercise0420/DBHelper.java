@@ -52,9 +52,25 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public void deleteContact(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("Delete from kontak WHERE id='" + id + "'");
+    }
+
+    public void updateContact(String id, String nama, String noTelp, String alamat, String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nama", nama);
+        values.put("phone", noTelp);
+        values.put("email", email);
+        values.put("alamat", alamat);
+
+        db.execSQL("UPDATE kontak SET nama='"+nama+"', phone='"+noTelp+"', email='"+email+"', alamat='"+alamat+"' where id='"+id+"'");
+    }
+
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from kontak where id=" + id + "", null);
+        Cursor res = db.rawQuery("select * from kontak where id='" + id + "'", null);
         return res;
     }
 

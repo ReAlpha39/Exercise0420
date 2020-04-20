@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ListAdapter extends BaseAdapter {
@@ -57,9 +58,7 @@ public class ListAdapter extends BaseAdapter {
 
             holder.Name_TextView = (TextView) convertView.findViewById(R.id.textViewNAME);
             holder.PhoneNumberTextView = (TextView) convertView.findViewById(R.id.textViewPHONE_NUMBER);
-
             convertView.setTag(holder);
-
         } else {
 
             holder = (Holder) convertView.getTag();
@@ -68,7 +67,6 @@ public class ListAdapter extends BaseAdapter {
         Contact contact = contactsList.get(position);
         holder.Name_TextView.setText(contact.getNama());
         holder.PhoneNumberTextView.setText(contact.getNomor());
-
         return convertView;
     }
 
