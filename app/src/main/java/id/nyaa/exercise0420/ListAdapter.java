@@ -15,6 +15,7 @@ class ListAdapter extends BaseAdapter implements Filterable {
 
     Context context;
     private ArrayList<Contact> contactsList;
+    ArrayList<Contact> originalItems;
 
 
     public ListAdapter(
@@ -24,6 +25,7 @@ class ListAdapter extends BaseAdapter implements Filterable {
     {
         this.contactsList = list;
         this.context = context;
+        originalItems = new ArrayList<>(contactsList);
     }
 
     @Override
@@ -76,28 +78,21 @@ class ListAdapter extends BaseAdapter implements Filterable {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
-            ArrayList<Contact> tempList = new ArrayList<Contact>();
             // Add the filter code here
             if (constraint != null && contactsList != null) {
-                int length = contactsList.size();
-                int i = 0;
-                while (i < length) {
-                    Contact item = contactsList.get(i);
-                    //do whatever you wanna do here
-                    //adding result set output array
+                final ArrayList<Contact> nlist = new ArrayList<Contact>();
+                String lowerConstraint = constraint.toString().toLowerCase();
+                for (Contact contact : originalItems) {
+                    final String value = contact.getNama().toLowerCase();
 
-                    //item.name is user.name cause i want to search on name
-                    if (item.getNama().toLowerCase().contains(constraint.toString().toLowerCase())) { // Add check here, and fill the tempList which shows as a result
-
-                        tempList.add(item);
+                    if (value.contains(lowerConstraint)) {
+                        nlist.add(contact);
                     }
-
-                    i++;
                 }
                 //following two lines is very important
                 //as publish result can only take FilterResults users
-                filterResults.values = tempList;
-                filterResults.count = tempList.size();
+                filterResults.values = nlist;
+                filterResults.count = nlist.size();
             }
             return filterResults;
         }
